@@ -1,152 +1,97 @@
 # ecomZen
-a production-ready Next.js + TypeScript + Tailwind + Prisma/Postgres e-commerce starter (Souled Store vibes) and get you deploy-ready on Netlify.
 
-# Next E-commerce Starter (Local uploads & Admin)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/ecomzen/deploy-status)](https://app.netlify.com/sites/ecomzen/deploys)
+[**Live Demo**](https://ecomzen.netlify.app)
 
-Starter stack:
-- Next.js (Pages router) + TypeScript
-- TailwindCSS
-- Prisma + PostgreSQL
-- NextAuth (Credentials provider)
-- Local dev uploads saved to `public/uploads/` (development)
-- Admin panel for product CRUD
+A production-ready E-commerce starter built with Next.js, TypeScript, Tailwind CSS, and Prisma/PostgreSQL. Designed for performance, scalability, and developer experience.
 
-> This project is tuned for local development. For production you should replace local uploads with a cloud storage (S3 / Supabase / DigitalOcean / Cloudinary) and run cleanup in a safe environment.
+## Overview
 
----
+ecomZen is a modern e-commerce solution that includes:
+- **Storefront**: Responsive product browsing, cart management, and checkout.
+- **Admin Panel**: Product management (CRUD), order viewing, and dashboard.
+- **Authentication**: Secure user and admin access via NextAuth.
+- **Database**: Robust data modeling with Prisma and PostgreSQL.
 
-## Quick repo layout
+## Architecture
 
-```
-/src
-/components
-/admin
-ProductForm.tsx
-LocalUploader.tsx
-/ui
-ConfirmModal.tsx
-/pages
-/admin
-index.tsx
-products/[id]/edit.tsx
-products/new.tsx
-/api
-/admin
-products/* (CRUD)
-upload-local.ts
-cleanup.ts
-auth/[...nextauth].ts
-/prisma
-schema.prisma
-/scripts
-cleanup-orphaned-files.js
-migrate-images.js
-/public/uploads/ (dev-only)
-```
+The project follows a modular and scalable architecture:
 
----
+- **Frontend**: Next.js (App Router & Pages Router hybrid) for server-side rendering and static generation.
+- **Styling**: Tailwind CSS for rapid, utility-first UI development.
+- **Backend**: Next.js API Routes handling business logic and database interactions.
+- **Database**: PostgreSQL managed via Prisma ORM for type-safe database access.
+- **Deployment**: Configured for seamless deployment on Netlify with CI/CD capabilities.
 
-## Local setup — step by step
+## Local Setup Guide
+
+Follow these steps to get the project running on your local machine.
 
 ### 1. Prerequisites
-- Node.js 18+ (Node 20 recommended)
-- PostgreSQL (local or hosted). Alternatively use Supabase / Neon.
-- `npm` or `pnpm` / `yarn`
+- Node.js 18+ (LTS recommended)
+- PostgreSQL installed and running locally, or a cloud instance (e.g., Supabase, Neon)
+- npm, pnpm, or yarn
 
-### 2. Clone & install
+### 2. Clone and Install
 ```bash
-git clone <your-repo-url>
-cd <your-repo>
-npm ci
+git clone https://github.com/luckyhegde6/ecomZen.git
+cd ecomZen
+npm install
 ```
 
-### 3. Environment variables
-
-Create .env in the project root (example .env.example provided). Minimum variables:
-
+### 3. Environment Configuration
+Create a `.env` file in the root directory. You can copy the example:
 ```bash
+cp .env.example .env
+```
+Ensure your `.env` contains the following (update values as needed):
+```env
 DATABASE_URL="postgresql://user:password@localhost:5432/ecomzen"
 NEXTAUTH_URL="http://localhost:3000"
-NEXTAUTH_SECRET="your-secret-key"
+NEXTAUTH_SECRET="your-super-secret-key-change-it"
 ```
 
-### 4. Prisma: generate & migrate
+### 4. Database Setup
+Initialize the database schema:
 ```bash
 npx prisma generate
 npx prisma migrate dev --name init
 ```
-
-If you prefer pushing schema without migration history:
-```bash
-npx prisma db push
-```
-
-Seed sample data (if seed script exists)
+(Optional) Seed the database if a seed script is available:
 ```bash
 npm run seed
 ```
 
-### 5. Run
-
+### 5. Run Development Server
+Start the application:
 ```bash
 npm run dev
 ```
+Open [http://localhost:3000](http://localhost:3000) to view the storefront.
+Access the admin panel at [http://localhost:3000/admin](http://localhost:3000/admin).
 
-### 6.Prepare uploads folder (one-time)
-```
-mkdir -p public/uploads public/uploads/thumbs
-touch public/uploads/.gitkeep public/uploads/thumbs/.gitkeep
-chmod -R 775 public/uploads
-```
-Or run the included script:
+### 6. Build for Production
+To verify the production build locally:
 ```bash
-npm run init:uploads
-# (ensure package.json has "init:uploads": "bash scripts/init-uploads.sh")
-```
-
-### 7. Run dev server
-```
-npm run dev
-# open http://localhost:3000
-```
-
-### 8. Admin panel
-
-The admin panel is available at `/admin`.
-
-### 6. Admin panel
-
-The admin panel is available at `/admin`.
-
-### 7. Cleanup orphaned files
-
-```bash
-node scripts/cleanup-orphaned-files.js
-```
-
-### 8. Migrate images
-
-```bash
-node scripts/migrate-images.js
-```
-
-### 9. Deploy
-
-Deploy to Netlify. Set environment variables in Netlify dashboard.
-
-## Useful commands (examples)
-```bash
-# dev
-npm run dev
-
-# build
 npm run build
+npm start
+```
 
-# prisma
-npx prisma generate
-npx prisma migrate dev --name init
-npx prisma studio
+## Deployment
 
-# cleanup dry-run
-DATABASE_URL="..." node scripts/cleanup-orphaned-files.js --dry-run
+This project is configured for easy deployment on **Netlify**.
+
+1.  Connect your GitHub repository to Netlify.
+2.  Set the `DATABASE_URL` and `NEXTAUTH_SECRET` in Netlify's **Site settings > Environment variables**.
+3.  The `netlify.toml` file handles the build configuration automatically.
+
+## Project Layout
+```
+/app          # Next.js App Router components (Admin, API)
+/pages        # Next.js Pages Router (Storefront legacy/hybrid)
+/components   # Reusable UI components
+/lib          # Utilities (Prisma client, helpers)
+/prisma       # Database schema and migrations
+/public       # Static assets
+/styles       # Global styles and Tailwind config
 ```

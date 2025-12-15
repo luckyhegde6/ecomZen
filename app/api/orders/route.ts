@@ -5,8 +5,8 @@ import { authOptions } from "@/lib/nextauth"
 import { prisma } from "@/lib/prisma"
 
 export async function GET(req: Request) {
-    const session = await getServerSession(authOptions as any)
-    if (!session || (session.user as any)?.role !== "admin") {
+    const session = await getServerSession(authOptions as any) as any
+    if (!session || session?.user?.role !== "admin") {
         return NextResponse.json({ error: "Unauthorized" }, { status: 403 })
     }
     const orders = await prisma.order.findMany({ take: 100, orderBy: { createdAt: "desc" } })
@@ -32,7 +32,7 @@ export async function POST(req: Request) {
                 address: address ?? "",
                 total: items.reduce((s: number, it: any) => s + (it.price || 0) * (it.qty || 1), 0),
                 meta: { items },
-            },
+            } as any,
         })
 
         if (order) return NextResponse.json(order)
