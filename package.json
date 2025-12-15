@@ -1,0 +1,69 @@
+{
+  "name": "ecomzen",
+  "description": "a production-ready Next.js + TypeScript + Tailwind + Prisma/Postgres e-commerce starter (Souled Store vibes) and get you deploy-ready on Netlify.",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "init:uploads": "bash scripts/init-uploads.sh",
+    "prisma:dbpush": "cross-env DATABASE_URL=file:./dev.db prisma db push --schema=prisma/schema.prisma",
+    "prisma:migrate": "cross-env DATABASE_URL=file:./dev.db prisma migrate dev --name init --schema=prisma/schema.prisma",
+    "prisma:generate": "prisma generate",
+    "seed": "ts-node prisma/seed.ts",
+    "local": "node scripts/local-dev.cjs",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f",
+    "docker:terminate": "docker-compose down --volumes"
+  },
+  "dependencies": {
+    "@netlify/plugin-nextjs": "^5.15.1",
+    "@next-auth/prisma-adapter": "^1.0.7",
+    "@prisma/adapter-pg": "^7.1.0",
+    "@prisma/client": "^7.1.0",
+    "autoprefixer": "^10.4.22",
+    "axios": "^1.13.2",
+    "bcrypt": "^6.0.0",
+    "clsx": "^2.1.1",
+    "formidable": "^3.5.4",
+    "next": "^16.0.7",
+    "next-auth": "^4.24.13",
+    "postcss": "^8.5.6",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-hook-form": "^7.68.0",
+    "zod": "^4.1.13"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/bcrypt": "^6.0.0",
+    "@types/formidable": "^3.4.6",
+    "@types/node": "^20.19.27",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19",
+    "cross-env": "^10.1.0",
+    "eslint": "^9",
+    "eslint-config-next": "16.0.7",
+    "mkdirp": "^3.0.1",
+    "prisma": "^7.1.0",
+    "sharp": "^0.34.5",
+    "tailwindcss": "^4.1.17",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luckyhegde6/ecomZen.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/luckyhegde6/ecomZen/issues"
+  },
+  "homepage": "https://github.com/luckyhegde6/ecomZen#readme"
+}

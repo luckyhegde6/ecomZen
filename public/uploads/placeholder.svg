@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="100%" height="100%" fill="#f3f4f6"></rect>
+  <g fill="#d1d5db">
+    <rect x="220" y="120" width="360" height="360" rx="12"></rect>
+    <circle cx="400" cy="300" r="90" fill="#e5e7eb"></circle>
+    <rect x="320" y="490" width="160" height="20" rx="4" fill="#d1d5db"></rect>
+  </g>
+  <text x="50%" y="40%" text-anchor="middle" font-size="28" fill="#9ca3af" opacity="0.8">
+    Image not available
+  </text>
+</svg>

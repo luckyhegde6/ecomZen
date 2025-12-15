@@ -1,0 +1,22 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: ecomzen-postgres
+    restart: unless-stopped
+    # Provide the env file to the container (no interpolation required)
+    env_file:
+      - .env.postgres
+    # Don't interpolate container env into compose file - let env_file supply them
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      # Run pg_isready inside the container; shell will expand $POSTGRES_USER/$POSTGRES_DB
+      test: ["CMD-SHELL", "pg_isready -U \"$POSTGRES_USER\" -d \"$POSTGRES_DB\" -h localhost -p 5432"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  pgdata:
