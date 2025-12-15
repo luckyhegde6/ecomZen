@@ -67,6 +67,15 @@ Start the application:
 ```bash
 npm run dev
 ```
+or
+
+```bash
+npm run local
+```
+to terminate the docker containers use 
+```bash
+npm run docker:terminate
+```  
 Open [http://localhost:3000](http://localhost:3000) to view the storefront.
 Access the admin panel at [http://localhost:3000/admin](http://localhost:3000/admin).
 

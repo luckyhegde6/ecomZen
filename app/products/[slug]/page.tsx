@@ -32,7 +32,7 @@ export default async function ProductPage({ params }: Props) {
     } catch (err: unknown) {
         // Defensive logging without leaking internals to clients
         const msg = err instanceof Error ? err.message : String(err)
-        // eslint-disable-next-line no-console
+         
         console.error('ProductPage: DB error fetching slug', slug, msg)
 
         // Prisma panic / unexpected DB error — show notFound to avoid crashing the request

@@ -15,7 +15,7 @@ export default async function HomePage() {
     })
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : String(err)
-    // eslint-disable-next-line no-console
+     
     console.error("HomePage: failed to fetch products from DB:", msg)
     products = []
   }
