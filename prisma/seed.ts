@@ -16,12 +16,12 @@ const adapter = new PrismaPg(pool, {
 
 const prisma = new PrismaClient({ adapter })
 
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL!
-const SEED_ADMIN_PASSWORD = process.env.SEED_ADMIN_PASSWORD!
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? 'admin@example.com'
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? 'admin123'
 const BCRYPT_ROUNDS = Number(process.env.BCRYPT_ROUNDS ?? 10)
 
 async function seedAdmin(tx: Prisma.TransactionClient) {
-    const passwordHash = await bcrypt.hash(SEED_ADMIN_PASSWORD, BCRYPT_ROUNDS)
+    const passwordHash = await bcrypt.hash(ADMIN_PASSWORD, BCRYPT_ROUNDS)
 
     const admin = await tx.user.upsert({
         where: { email: ADMIN_EMAIL },
