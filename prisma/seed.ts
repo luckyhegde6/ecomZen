@@ -16,8 +16,8 @@ const adapter = new PrismaPg(pool, {
 
 const prisma = new PrismaClient({ adapter })
 
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? 'admin@example.com'
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? 'admin123'
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL!
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD!
 const BCRYPT_ROUNDS = Number(process.env.BCRYPT_ROUNDS ?? 10)
 
 async function seedAdmin(tx: Prisma.TransactionClient) {
