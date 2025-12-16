@@ -1,15 +1,8 @@
 [build]
   command = "npm run build"
   publish = ".next"
-
-[functions]
-  directory = "netlify/functions"
-
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
-
-[template]
-  required-extensions = ["prisma-postgres"]
+  base = "."
+  functions = "netlify/functions"
 
 [build.environment]
   NODE_VERSION = "20"
@@ -19,3 +12,6 @@
   [headers.values]
     X-Frame-Options = "DENY"
     X-XSS-Protection = "1; mode=block"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
