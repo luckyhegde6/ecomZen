@@ -22,7 +22,7 @@ export async function POST(req: Request) {
         })
 
         return NextResponse.json({ ok: true, orderId: order.id })
-    } catch (error) {
-        return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
+    } catch {
+        return NextResponse.json({ error: "Checkout failed" }, { status: 500 })
     }
 }

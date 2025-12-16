@@ -9,7 +9,7 @@ function getCartCount() {
     const raw = localStorage.getItem('cart')
     if (!raw) return 0
     const items = JSON.parse(raw)
-    return items.reduce((s: number, it: any) => s + (it.qty || 1), 0)
+    return items.reduce((s: number, it: { qty?: number }) => s + (it.qty || 1), 0)
   } catch {
     return 0
   }
@@ -20,9 +20,11 @@ export default function Header() {
   const [cartCount, setCartCount] = useState(0)
   const [open, setOpen] = useState(false)
 
-  const isAdmin = (session?.user as any)?.role === 'admin'
+  const isAdmin = (session?.user as { role?: string })?.role === 'admin'
 
   useEffect(() => {
+
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setCartCount(getCartCount())
     const onStorage = () => setCartCount(getCartCount())
     window.addEventListener('storage', onStorage)

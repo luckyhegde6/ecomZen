@@ -5,8 +5,12 @@ import React from "react"
 import ProductCard from "@/components/ProductCard"
 import { prisma } from "@/lib/prisma"
 
+// Infer the type from a dummy call (safe for types)
+const getProducts = () => prisma.product.findMany({ include: { images: true } })
+type ProductWithImages = Awaited<ReturnType<typeof getProducts>>[number]
+
 export default async function HomePage() {
-  let products: any[] = []
+  let products: ProductWithImages[] = []
 
   try {
     products = await prisma.product.findMany({
@@ -15,7 +19,7 @@ export default async function HomePage() {
     })
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : String(err)
-     
+
     console.error("HomePage: failed to fetch products from DB:", msg)
     products = []
   }

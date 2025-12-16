@@ -41,6 +41,7 @@ function allCandidatePaths(): string[] {
     return files
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function main() {
     console.log('Starting cleanup-orphaned-files', DRY ? '(dry-run)' : '')
     const candidates = allCandidatePaths()

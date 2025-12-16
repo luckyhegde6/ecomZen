@@ -1,24 +1,19 @@
 // app/api/admin/products/[id]/route.ts
-import { NextResponse, NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { deleteUploadedFile } from '@/lib/file-utils'
-
-type RouteParams = { id: string }
-type ContextWithParams = { params: RouteParams | Promise<RouteParams> }
-
-async function resolveParams(context: ContextWithParams) {
-    // context.params may be a Promise or an object depending on environment
-    return await Promise.resolve(context.params)
-}
 
 /**
  * GET /api/admin/products/:id
  */
-export async function GET(_request: NextRequest, context: ContextWithParams) {
-    const params = await resolveParams(context)
+export async function GET(
+    _req: NextRequest,
+    { params }: { params: Promise<{ id: string }> }
+) {
+    const resolvedParams = await params
     try {
         const product = await prisma.product.findUnique({
-            where: { id: params.id },
+            where: { id: resolvedParams.id },
             include: { images: true, variants: true },
         })
         if (!product) return NextResponse.json({ error: 'Not found' }, { status: 404 })
@@ -36,16 +31,19 @@ export async function GET(_request: NextRequest, context: ContextWithParams) {
  * Deletes previously stored local files for images on the existing product
  * before creating new image records (dev cleanup).
  */
-export async function PUT(request: NextRequest, context: ContextWithParams) {
-    const params = await resolveParams(context)
+export async function PUT(
+    req: NextRequest,
+    { params }: { params: Promise<{ id: string }> }
+) {
+    const resolvedParams = await params
     try {
-        const body = await request.json()
+        const body = await req.json()
         const { name, slug, description, price, images } = body
 
         // fetch existing images to cleanup files
-        const existing = await prisma.product.findUnique({ where: { id: params.id }, include: { images: true } })
+        const existing = await prisma.product.findUnique({ where: { id: resolvedParams.id }, include: { images: true } })
         if (existing?.images && existing.images.length) {
-            for (const img of existing.images as any[]) {
+            for (const img of existing.images) {
                 await deleteUploadedFile(img.url)
                 try {
                     const base = img.url?.split('/').pop()
@@ -58,7 +56,7 @@ export async function PUT(request: NextRequest, context: ContextWithParams) {
         }
 
         const updated = await prisma.product.update({
-            where: { id: params.id },
+            where: { id: resolvedParams.id },
             data: {
                 name,
                 slug,
@@ -66,7 +64,7 @@ export async function PUT(request: NextRequest, context: ContextWithParams) {
                 price,
                 images: {
                     deleteMany: {},
-                    create: (images || []).map((i: any) => ({ url: i.url, alt: i.alt || '' })),
+                    create: (images || []).map((i: { url: string; alt?: string }) => ({ url: i.url, alt: i.alt || '' })),
                 },
             },
             include: { images: true },
@@ -84,14 +82,17 @@ export async function PUT(request: NextRequest, context: ContextWithParams) {
  *
  * Deletes product and attempts to delete local image files (dev).
  */
-export async function DELETE(_request: NextRequest, context: ContextWithParams) {
-    const params = await resolveParams(context)
+export async function DELETE(
+    _req: NextRequest,
+    { params }: { params: Promise<{ id: string }> }
+) {
+    const resolvedParams = await params
     try {
-        const product = await prisma.product.findUnique({ where: { id: params.id }, include: { images: true } })
+        const product = await prisma.product.findUnique({ where: { id: resolvedParams.id }, include: { images: true } })
         if (!product) return NextResponse.json({ error: 'Not found' }, { status: 404 })
 
         if (product.images?.length) {
-            for (const img of product.images as any[]) {
+            for (const img of product.images) {
                 await deleteUploadedFile(img.url)
                 try {
                     const base = img.url?.split('/').pop()
@@ -103,7 +104,7 @@ export async function DELETE(_request: NextRequest, context: ContextWithParams) 
             }
         }
 
-        await prisma.product.delete({ where: { id: params.id } })
+        await prisma.product.delete({ where: { id: resolvedParams.id } })
         return NextResponse.json({ ok: true })
     } catch (err) {
         console.error('DELETE product error', err)

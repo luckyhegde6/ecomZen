@@ -19,7 +19,7 @@ const uploadsDir = path.join(process.cwd(), 'public', 'uploads')
 const thumbsDir = path.join(uploadsDir, 'thumbs')
 
 async function ensureDir(p: string) {
-  try { await fs.promises.stat(p) } catch (e) { await fs.promises.mkdir(p, { recursive: true }) }
+  try { await fs.promises.stat(p) } catch { await fs.promises.mkdir(p, { recursive: true }) }
 }
 
 async function downloadToFile(url: string, dest: string) {

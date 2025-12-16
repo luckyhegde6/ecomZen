@@ -30,6 +30,7 @@ export async function POST(request: NextRequest) {
         await ensureFolderExists(thumbsFolder)
 
         // formidable expects Node's IncomingMessage. We can access the raw Node request via (request as any).req
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const nodeReq = (request as any).req
         if (!nodeReq) {
             return NextResponse.json({ error: 'Unable to access raw request' }, { status: 500 })
@@ -60,6 +61,7 @@ export async function POST(request: NextRequest) {
 
         for (const f of rawFiles) {
             // treat formidable file as any to access different possible properties safely
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const fileAny = f as any
             const originalName = fileAny.originalFilename || fileAny.newFilename || fileAny.name || 'upload'
             const ext = path.extname(String(originalName)) || path.extname(fileAny.filepath || '') || ''

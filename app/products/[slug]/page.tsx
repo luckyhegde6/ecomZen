@@ -22,7 +22,13 @@ export default async function ProductPage({ params }: Props) {
         return notFound()
     }
 
-    let product: any | null = null
+    // define a helper or just infer inline if possible, but let's be explicit with a typeof trick or simpler:
+    // just use `any` temporarily if needed, or better, infer it.
+    // simpler approach:
+    const getProduct = () => prisma.product.findUnique({ where: { slug: '' }, include: { images: true } })
+    type ProductType = NonNullable<Awaited<ReturnType<typeof getProduct>>>
+
+    let product: ProductType | null = null
 
     try {
         product = await prisma.product.findUnique({
@@ -32,7 +38,7 @@ export default async function ProductPage({ params }: Props) {
     } catch (err: unknown) {
         // Defensive logging without leaking internals to clients
         const msg = err instanceof Error ? err.message : String(err)
-         
+
         console.error('ProductPage: DB error fetching slug', slug, msg)
 
         // Prisma panic / unexpected DB error — show notFound to avoid crashing the request
@@ -48,6 +54,7 @@ export default async function ProductPage({ params }: Props) {
         <main className="container mx-auto p-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                         src={product.images?.[0]?.url || '/uploads/placeholder.svg'}
                         alt={product.images?.[0]?.alt ?? product.name}

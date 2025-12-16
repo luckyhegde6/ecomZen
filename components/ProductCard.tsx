@@ -2,6 +2,7 @@
 import React from "react"
 import Link from "next/link"
 
+// Define minimal product type or use Prisma's if strictly shared
 export default function ProductCard({ product }: { product: any }) {
     if (!product) return null
 
@@ -36,6 +37,7 @@ export default function ProductCard({ product }: { product: any }) {
     return (
         <div className="border rounded-lg p-4 hover:shadow bg-transparent">
             <Link href={`/products/${product.slug}`} className="block">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                     src={product.images?.[0]?.url || '/uploads/placeholder-400.png'}
                     alt={product.images?.[0]?.alt || product.name}

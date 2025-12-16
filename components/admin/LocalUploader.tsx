@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 
 export default function LocalUploader({ onUploaded }: { onUploaded?: (files: { url: string }[]) => void }) {
     const [uploading, setUploading] = useState(false)
-    const [previewUrls, setPreviewUrls] = useState<string[]>([])
+    const [_previewUrls, setPreviewUrls] = useState<string[]>([])
 
     async function handleFiles(e: React.ChangeEvent<HTMLInputElement>) {
         const files = e.target.files

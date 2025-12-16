@@ -5,6 +5,7 @@ import AdminLayout from '@/components/admin/AdminLayout'
 import Link from 'next/link'
 import ConfirmModal from '@/components/ui/ConfirmModal'
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function AdminClient({ products }: { products: any[] }) {
     const [modalOpen, setModalOpen] = useState(false)
     const [deletingId, setDeletingId] = useState<string | null>(null)
@@ -50,8 +51,10 @@ export default function AdminClient({ products }: { products: any[] }) {
                             <div className="w-20 h-20 bg-gray-100 rounded overflow-hidden">
                                 {p.images?.[0] ? (
                                     typeof p.images[0] === 'object' ? (
+                                        // eslint-disable-next-line @next/next/no-img-element
                                         <img src={p.images[0].thumb || p.images[0].url} alt={p.images[0].alt || p.name} className="w-full h-full object-cover" />
                                     ) : (
+                                        // eslint-disable-next-line @next/next/no-img-element
                                         <img src={p.images[0]} alt={p.name} className="w-full h-full object-cover" />
                                     )
                                 ) : (

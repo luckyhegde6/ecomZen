@@ -2,7 +2,9 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function ProductsTable() {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [products, setProducts] = useState<any[]>([])
     const [loading, setLoading] = useState(true)
 
@@ -32,7 +34,7 @@ export default function ProductsTable() {
             } else {
                 alert('Failed to delete')
             }
-        } catch (err) {
+        } catch (_err) {
             alert('Error deleting')
         }
     }
@@ -63,6 +65,7 @@ export default function ProductsTable() {
                                     <div className="flex items-center gap-4">
                                         <div className="w-12 h-12 bg-gray-100 rounded-lg overflow-hidden shrink-0 border border-gray-200">
                                             {product.images?.[0] ? (
+                                                // eslint-disable-next-line @next/next/no-img-element
                                                 <img src={product.images[0].url} alt="" className="w-full h-full object-cover" />
                                             ) : (
                                                 <div className="w-full h-full flex items-center justify-center text-gray-300">

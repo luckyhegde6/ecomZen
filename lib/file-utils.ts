@@ -15,7 +15,7 @@ export async function deleteUploadedFile(publicPath: string) {
         await stat(filePath) // will throw if not exists
         await unlink(filePath)
         return true
-    } catch (err) {
+    } catch {
         // swallow missing-file errors (already deleted) but log others
         // console.warn('deleteUploadedFile error', err)
         return false

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 // scripts/local-dev.cjs
 // CommonJS orchestrator for local dev (uses `docker compose --env-file .env.postgres`)
 
@@ -60,7 +61,7 @@ async function main() {
       print('local-dev: found existing container; removing to ensure clean init...')
       sh(`docker rm -f ${CONTAINER} || true`)
     }
-  } catch (e) {
+  } catch (_e) {
     // ignore
   }
 
@@ -84,7 +85,7 @@ async function main() {
         print('local-dev: postgres reports ready.')
         break
       }
-    } catch (e) {
+    } catch {
       // continue
     }
     process.stdout.write('.')
@@ -101,7 +102,7 @@ async function main() {
   let tablesList = null
   try {
     tablesList = shCapture(psqlCmd)
-  } catch (err) {
+  } catch (_err) {
     // ignore; tablesList will be null
   }
 

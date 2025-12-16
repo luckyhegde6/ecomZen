@@ -8,7 +8,7 @@ export default function Navbar() {
     const { data: session, status } = useSession()
     const [open, setOpen] = useState(false)
 
-    const isAdmin = (session?.user as any)?.role === 'admin'
+    const isAdmin = (session?.user as { role?: string })?.role === 'admin'
 
     return (
         <header className="sticky top-0 z-50 border-b border-white/10 bg-gradient-to-b from-[#0b1220]/90 to-[#020617]/90 backdrop-blur">

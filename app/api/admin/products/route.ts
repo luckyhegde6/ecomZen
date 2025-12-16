@@ -35,7 +35,7 @@ export async function POST(request: Request) {
         price,
         inventory: 0,
         images: {
-          create: (images || []).map((i: any) => ({ url: i.url, alt: i.alt || '' })),
+          create: (images || []).map((i: { url: string; alt?: string }) => ({ url: i.url, alt: i.alt || '' })),
         },
       },
       include: { images: true },

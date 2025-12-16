@@ -1,6 +1,6 @@
 # ecomZen
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/ecomzen/deploy-status)](https://app.netlify.com/sites/ecomzen/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/9499c875-1424-49d0-b494-5805e4b146c0/deploy-status)](https://app.netlify.com/projects/ecomzen/deploys)
 [**Live Demo**](https://ecomzen.netlify.app)
 
 A production-ready E-commerce starter built with Next.js, TypeScript, Tailwind CSS, and Prisma/PostgreSQL. Designed for performance, scalability, and developer experience.
@@ -68,6 +68,15 @@ Start the application:
 npm run dev
 ```
 or
+
+add `.env.postgres`
+```env
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_DB=ecomzen
+POSTGRES_PORT=5432
+```
+then run 
 
 ```bash
 npm run local

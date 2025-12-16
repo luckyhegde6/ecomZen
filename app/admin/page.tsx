@@ -27,7 +27,7 @@ export default async function AdminPage() {
     <div className="max-w-6xl mx-auto space-y-8">
       <div>
         <h1 className="text-3xl font-bold tracking-tight text-gray-900">Dashboard</h1>
-        <p className="mt-2 text-gray-500">Overview of your store's performance.</p>
+        <p className="mt-2 text-gray-500">Overview of your store&apos;s performance.</p>
       </div>
 
       {/* Stats Grid */}

@@ -24,6 +24,7 @@ export default function CheckoutPage() {
   const router = useRouter()
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setItems(getCartFromStorage())
   }, [])
 
@@ -66,7 +67,7 @@ export default function CheckoutPage() {
 
           <div>
             <h3 className="font-semibold">Payment</h3>
-            <p className="text-sm text-muted-foreground">This demo doesn't process payments — integrate Stripe or similar for real payments.</p>
+            <p className="text-sm text-muted-foreground">This demo doesn&apos;t process payments — integrate Stripe or similar for real payments.</p>
           </div>
 
           <div>

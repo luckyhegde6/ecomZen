@@ -5,6 +5,7 @@ import LocalUploader from '@/components/admin/LocalUploader'
 
 type ImageItem = { url: string; thumb?: string; alt?: string }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function ProductForm({ product }: { product?: any }) {
     const router = useRouter()
     const [name, setName] = useState(product?.name || '')
@@ -157,7 +158,7 @@ export default function ProductForm({ product }: { product?: any }) {
 
                         {/* Local Uploader */}
                         <div className="mb-6">
-                            <LocalUploader onUploaded={(files) => handleLocalUploaded(files as any)} />
+                            <LocalUploader onUploaded={(files) => handleLocalUploaded(files)} />
                         </div>
 
                         {/* Image Gallery */}
@@ -166,6 +167,7 @@ export default function ProductForm({ product }: { product?: any }) {
                             <div className="grid grid-cols-3 sm:grid-cols-4 gap-4">
                                 {images.map((img, idx) => (
                                     <div key={idx} className="group relative aspect-square bg-gray-100 rounded-lg overflow-hidden border border-gray-200">
+                                        {/* eslint-disable-next-line @next/next/no-img-element */}
                                         <img
                                             src={img.thumb || img.url}
                                             alt={img.alt || `Product ${idx + 1}`}

@@ -4,8 +4,8 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/nextauth"
 import { prisma } from "@/lib/prisma"
 
-export async function GET(req: Request) {
-    const session = await getServerSession(authOptions as any) as any
+export async function GET() {
+    const session = await getServerSession(authOptions) as { user?: { role?: string } } | null
     if (!session || session?.user?.role !== "admin") {
         return NextResponse.json({ error: "Unauthorized" }, { status: 403 })
     }
@@ -25,12 +25,11 @@ export async function POST(req: Request) {
     // If you DO have an Order model, use prisma.order.create(...) instead.
     try {
         // Try to persist if Order model exists
-        // @ts-ignore
         const order = await prisma.order.create?.({
             data: {
                 customerName: name ?? "Guest",
                 address: address ?? "",
-                total: items.reduce((s: number, it: any) => s + (it.price || 0) * (it.qty || 1), 0),
+                total: items.reduce((s: number, it: { price: number; qty: number }) => s + (it.price || 0) * (it.qty || 1), 0),
                 meta: { items },
             } as any,
         })
@@ -46,7 +45,7 @@ export async function POST(req: Request) {
         id: "mock-" + Date.now(),
         customerName: name ?? "Guest",
         address: address ?? "",
-        total: items.reduce((s: number, it: any) => s + (it.price || 0) * (it.qty || 1), 0),
+        total: items.reduce((s: number, it: { price: number; qty: number }) => s + (it.price || 0) * (it.qty || 1), 0),
         items,
         createdAt: new Date().toISOString(),
     }

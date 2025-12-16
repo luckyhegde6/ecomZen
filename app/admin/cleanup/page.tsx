@@ -16,7 +16,7 @@ export default function CleanupPage() {
             } else {
                 setMessage(`Error: ${json.error || 'Failed'}`)
             }
-        } catch (err) {
+        } catch {
             setMessage('Error running cleanup')
         } finally {
             setLoading(false)
