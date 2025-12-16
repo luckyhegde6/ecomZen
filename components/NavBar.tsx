@@ -26,6 +26,9 @@ export default function Navbar() {
                     <Link href="/cart" className="nav-link">
                         Cart
                     </Link>
+                    <Link href="/about" className="nav-link">
+                        About
+                    </Link>
 
                     {isAdmin && (
                         <Link href="/admin" className="nav-link">
@@ -63,6 +66,9 @@ export default function Navbar() {
                     <div className="flex flex-col gap-3">
                         <Link href="/cart" className="mobile-link" onClick={() => setOpen(false)}>
                             Cart
+                        </Link>
+                        <Link href="/about" className="mobile-link" onClick={() => setOpen(false)}>
+                            About
                         </Link>
 
                         {isAdmin && (
