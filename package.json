@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "stage": "netlify dev",
+    "quickbuild": "next build",
     "build": "prisma generate && npx prisma migrate deploy && next build",
     "start": "next start",
     "lint": "eslint .",
@@ -17,6 +18,7 @@
     "prisma:dbpush": "cross-env DATABASE_URL=file:./dev.db prisma db push --schema=prisma/schema.prisma",
     "prisma:migrate": "cross-env DATABASE_URL=file:./dev.db prisma migrate dev --name init --schema=prisma/schema.prisma",
     "prisma:generate": "prisma generate",
+    "prisma:debug": "ts-node scripts/debug-prisma.ts",
     "seed": "ts-node prisma/seed.ts",
     "local": "node scripts/local-dev.cjs",
     "docker:up": "docker-compose up -d",

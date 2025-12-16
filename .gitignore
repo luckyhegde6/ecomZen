@@ -16,6 +16,7 @@
 # next.js
 /.next/
 /out/
+next-env.d.ts
 
 # production
 /build
@@ -47,5 +48,16 @@ next-env.d.ts
 # tailwind
 .tailwindcss
 
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+
+# generated files
+app/generated
+
+# prisma
+prisma/generated
 
 

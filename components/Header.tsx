@@ -47,6 +47,7 @@ export default function Header() {
           <nav className="hidden md:flex items-center gap-6 text-sm">
             <Link href="/" className="nav-link">Home</Link>
             <Link href="/products" className="nav-link">Products</Link>
+            <Link href="/__forms.html" className="nav-link">Contact</Link>
 
             <Link href="/cart" className="relative nav-link">
               Cart
@@ -93,6 +94,7 @@ export default function Header() {
             <div className="flex flex-col gap-3 text-sm">
               <Link href="/" className="mobile-link" onClick={() => setOpen(false)}>Home</Link>
               <Link href="/products" className="mobile-link" onClick={() => setOpen(false)}>Products</Link>
+              <Link href="/__forms.html" className="mobile-link" onClick={() => setOpen(false)}>Contact</Link>
               <Link href="/cart" className="mobile-link" onClick={() => setOpen(false)}>
                 Cart ({cartCount})
               </Link>

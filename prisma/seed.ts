@@ -1,20 +1,35 @@
 // prisma/seed.ts
 import 'dotenv/config'
 import bcrypt from 'bcrypt'
-import { PrismaClient, Prisma } from '@prisma/client'
+// import { PrismaClient, Prisma } from '@prisma/client' // Removed standard import
+import { PrismaClient, Prisma } from './generated/index.js' // Added custom import
 import { PrismaPg } from '@prisma/adapter-pg'
 import { Pool } from 'pg'
+import { checkConnection } from '../scripts/check-db-connection.ts'
 
 if (!process.env.DATABASE_URL) {
     throw new Error('DATABASE_URL is not set')
 }
 
-const pool = new Pool({ connectionString: process.env.DATABASE_URL })
-const adapter = new PrismaPg(pool, {
-    schema: 'public',
-})
+const connectionString = process.env.DATABASE_URL
+const isAccelerate = connectionString.startsWith('prisma://') || connectionString.startsWith('prisma+postgres://')
 
-const prisma = new PrismaClient({ adapter })
+
+let prisma: PrismaClient
+
+if (isAccelerate) {
+    // Prisma 7 requires explicit 'accelerateUrl' or 'adapter'.
+    prisma = new PrismaClient({
+        accelerateUrl: connectionString,
+        log: ['info'],
+    })
+} else {
+    const pool = new Pool({ connectionString })
+    const adapter = new PrismaPg(pool, {
+        schema: 'public',
+    })
+    prisma = new PrismaClient({ adapter })
+}
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? 'admin@example.com'
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? 'admin123'
@@ -92,6 +107,14 @@ async function seedProducts(tx: Prisma.TransactionClient) {
 
 async function main() {
     console.log('🌱 Starting database seed...')
+
+    // Verify connection first
+    const isConnected = await checkConnection()
+    if (!isConnected) {
+        console.error('❌ Cannot connect to database. Aborting seed.')
+        process.exit(1)
+    }
+
 
     await prisma.$transaction(async (tx) => {
         await seedAdmin(tx)
