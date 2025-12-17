@@ -15,7 +15,7 @@ model User {
   id        String   @id @default(cuid())
   name      String
   email     String   @unique
-  mobile    String   @unique @default(null)
+  mobile    String   
   address   String
   password  String?
   role      String   @default("user")
