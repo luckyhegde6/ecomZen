@@ -45,6 +45,8 @@ async function seedAdmin(tx: Prisma.TransactionClient) {
             email: ADMIN_EMAIL,
             name: 'Admin User',
             password: passwordHash,
+            mobile: '1234567890',
+            address: '123 Main St',
             role: 'admin',
         },
     })

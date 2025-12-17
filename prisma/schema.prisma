@@ -13,8 +13,10 @@ datasource db {
 
 model User {
   id        String   @id @default(cuid())
-  name      String?
+  name      String
   email     String   @unique
+  mobile    String   @unique @default(null)
+  address   String
   password  String?
   role      String   @default("user")
   createdAt DateTime @default(now())
@@ -46,13 +48,19 @@ model Image {
 }
 
 model Order {
-  id        String   @id @default(cuid())
-  user      User?    @relation(fields: [userId], references: [id])
-  userId    String?
-  total     Int
-  status    String   @default("pending")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id             String   @id @default(cuid())
+  user           User?    @relation(fields: [userId], references: [id])
+  userId         String?
+  total          Int
+  subtotal       Int      @default(0)
+  discount       Int      @default(0)
+  deliveryFee    Int      @default(0)
+  shippingFee    Int      @default(0)
+  platformFee    Int      @default(0)
+  status         String   @default("pending")
+  trackingStatus String   @default("ordered") // ordered, shipped, out_for_delivery, delivered
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }
 
 model Variant {
